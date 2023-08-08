@@ -1,0 +1,16 @@
+{
+    "name": "Crystal Quest",
+    "short_name": "Crystal Quest",
+    "start_url": ".",
+    "display": "standalone",
+    "theme_color": "#4C5270",
+    "background_color": "#4C5270",
+    "icons": [
+      {
+        "src": "icon.png",
+        "sizes": "192x192",
+        "type": "image/png"
+      }
+    ]
+  }
+  

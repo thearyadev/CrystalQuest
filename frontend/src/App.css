@@ -40,3 +40,15 @@
 .read-the-docs {
   color: #888;
 }
+
+.crystal-icon {
+  width: 50px;
+}
+
+body{
+  overflow: hidden;
+}
+
+.mini-icon-crystal{
+  width: 15px;
+}

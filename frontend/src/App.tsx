@@ -42,7 +42,7 @@ function TabPanelContainer(props: TabPanelProps) {
       {...other}
     >
       {value === index && (
-        <Box sx={{ height: 'calc(100vh - 300px)', overflowY: 'scroll', pt: 5, pl: 1, pr: 1 }} id='ScrollbarHiddenBox' >
+        <Box sx={{ height: 'calc(100vh - 300px)', overflowY: 'scroll', pt: 5, pl: 1, pr: 1}} id='ScrollbarHiddenBox' >
           <Typography>{children}</Typography>
         </Box>
       )}

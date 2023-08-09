@@ -1,10 +1,12 @@
-from datetime import date, datetime
 from dataclasses import dataclass
+from datetime import date, datetime
 from typing import Optional
+
+from beartype import beartype
+
 from models.transaction_item import TransactionItem
 from models.transaction_item_tier import TransactionItemTier
 
-from beartype import beartype
 
 @beartype
 @dataclass(frozen=True)

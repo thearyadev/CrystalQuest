@@ -1,10 +1,13 @@
-import sqlite3
-from beartype import beartype
-from models.transaction_item import TransactionItem
-from models.transaction import Transaction
-from models.transaction_item_tier import TransactionItemTier
-from models.balance import Balance
 import datetime
+import sqlite3
+
+from beartype import beartype
+
+from models.balance import Balance
+from models.transaction import Transaction
+from models.transaction_item import TransactionItem
+from models.transaction_item_tier import TransactionItemTier
+
 
 class Database:
     def __init__(self, db_path):
@@ -44,7 +47,7 @@ class Database:
         return [
             Transaction(
                 id=trans_id,
-                created_at=datetime.datetime.strptime(created_at, '%Y-%m-%d %H:%M:%S'),
+                created_at=datetime.datetime.strptime(created_at, "%Y-%m-%d %H:%M:%S"),
                 transaction_item=TransactionItem(
                     id=item_id, type=item_type, name=item_name, price=item_price
                 ),
@@ -83,8 +86,10 @@ class Database:
                     TransactionItemTier(tier=tier, price=int(tier_price), id=tier_id)
                     for tier, tier_price in zip(
                         tiers.split(","), tier_prices.split(",")
-                    ) 
-                ] if tiers and tier_prices else None,
+                    )
+                ]
+                if tiers and tier_prices
+                else None,
             )
             for item_id, item_type, item_name, item_price, tiers, tier_prices, tier_id in cursor.fetchall()
         ]
@@ -101,9 +106,9 @@ class Database:
         )
 
         item_id: int | None = cursor.lastrowid
-        
-        if item_id: 
-            for tier in (item.tiers or []):
+
+        if item_id:
+            for tier in item.tiers or []:
                 cursor.execute(
                     """
                     INSERT INTO transaction_item_tier (tier, price, transaction_item_id)
@@ -112,18 +117,24 @@ class Database:
                     (tier.tier, tier.price, item_id),
                 )
         self.db.commit()
-    
+
     @beartype
     def insert_transaction(self, transaction: Transaction):
+        if (
+            transaction.transaction_item.type == "decrease"
+            and transaction.transaction_item.price > self.get_balance().crystals
+        ):
+            return
+
         cursor = self.db.cursor()
         if transaction.transaction_item_tier:
             cursor.execute(
-            """
+                """
             INSERT INTO transactions (transaction_item_tier_id)
             VALUES (?);
             """,
-            (transaction.transaction_item_tier.id, ),
-        )
+                (transaction.transaction_item_tier.id,),
+            )
         self.db.commit()
 
     @beartype
@@ -141,6 +152,7 @@ LEFT JOIN
     transaction_item_tier tt ON t.transaction_item_tier_id = tt.id
 LEFT JOIN
     transaction_item ti ON tt.transaction_item_id = ti.id;
-""")
+"""
+        )
         data = cursor.fetchone()
         return Balance(crystals=data[0], today=300)

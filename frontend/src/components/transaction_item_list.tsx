@@ -23,7 +23,7 @@ const TransactionItemListItem = ({ item, reloadFn }: { item: TransactionItem, re
                     {tier.tier}: {tier.price}
                 </Button>))}
             </ButtonGroup> */}
-            <TierSelectButton tiers={item.tiers || []} reloadFn={reloadFn}/>
+            <TierSelectButton tiers={item.tiers || []} reloadFn={reloadFn} item={item}/>
         </ListItem>
     )
 }

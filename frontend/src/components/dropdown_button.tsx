@@ -9,16 +9,30 @@ import Popper from '@mui/material/Popper';
 import MenuItem from '@mui/material/MenuItem';
 import MenuList from '@mui/material/MenuList';
 import { TransactionItemTier } from '../models';
+import { ApiAddTransaction } from '../apiActions';
+import { Transaction, TransactionItem } from '../models';
 
 // const options = ['Create a merge commit', 'Squash and merge', 'Rebase and merge'];
 
-const TierSelectButton = ({ tiers, reloadFn }: { tiers: TransactionItemTier[], reloadFn: () => void }) => {
+const TierSelectButton = ({ item, tiers, reloadFn }: {item: TransactionItem, tiers: TransactionItemTier[], reloadFn: () => void }) => {
     const [open, setOpen] = React.useState(false);
     const anchorRef = React.useRef<HTMLDivElement>(null);
     const [selectedIndex, setSelectedIndex] = React.useState(0);
     const handleClick = () => {
         console.log(tiers)
         console.info(`You clicked ${tiers[selectedIndex].tier}`);
+        const transaction: Transaction = {
+            transaction_item: item,
+            transaction_item_tier: tiers[selectedIndex],
+            created_at: new Date(),
+        }
+
+        console.log(transaction.transaction_item.type)
+
+
+        ApiAddTransaction(transaction).then(() => {
+            reloadFn();
+        })
     };
 
     const handleMenuItemClick = (
@@ -47,7 +61,7 @@ const TierSelectButton = ({ tiers, reloadFn }: { tiers: TransactionItemTier[], r
     return (
         <React.Fragment>
             <ButtonGroup variant="contained" ref={anchorRef} aria-label="split button">
-                <Button onClick={handleClick}>{tiers[selectedIndex]?.tier || tiers[0].tier}</Button>
+                <Button onClick={handleClick}>{tiers[selectedIndex]?.tier || tiers[0].tier} ({tiers[selectedIndex]?.price || tiers[0].price})</Button>
                 <Button
                     size="small"
                     aria-controls={open ? 'split-button-menu' : undefined}

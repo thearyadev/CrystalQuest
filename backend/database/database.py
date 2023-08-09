@@ -112,6 +112,19 @@ class Database:
                     (tier.tier, tier.price, item_id),
                 )
         self.db.commit()
+    
+    @beartype
+    def insert_transaction(self, transaction: Transaction):
+        cursor = self.db.cursor()
+        if transaction.transaction_item_tier:
+            cursor.execute(
+            """
+            INSERT INTO transactions (transaction_item_tier_id)
+            VALUES (?);
+            """,
+            (transaction.transaction_item_tier.id, ),
+        )
+        self.db.commit()
 
     @beartype
     def get_balance(self) -> Balance:
@@ -120,7 +133,7 @@ class Database:
             """
 SELECT
     SUM(
-        CASE WHEN ti.type = 'increase' THEN tt.price * -1  ELSE tt.price END
+        CASE WHEN ti.type = 'decrease' THEN tt.price * -1  ELSE tt.price END
     ) AS balance
 FROM
     transactions t

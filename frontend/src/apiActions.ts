@@ -61,8 +61,16 @@ export const ApiFetchBalance = async (): Promise<Balance> => {
 
 }
 
-export const ApiAddTransaction = async (transaction: Transaction): Promise<any> => {
-
+export const ApiAddTransaction = async (transaction: Transaction): Promise<Response> => {
+    const url = buildUrl("/api/insert/transaction")
+    const response = await fetch(url, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(transaction),
+    });
+    return response;
 }
 
 export const ApiAddTransactionItem = async (transactionItem: TransactionItem): Promise<Response> => {

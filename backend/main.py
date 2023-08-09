@@ -45,6 +45,11 @@ async def create_transaction_item(transactionItem: TransactionItem, db: database
 async def get_balance(db: database.Database = Depends(get_database)) -> Balance:
     return db.get_balance()
 
+@api.post("/insert/transaction", response_model=Transaction)
+async def create_transaction(transaction: Transaction, db: database.Database = Depends(get_database)) -> Response:
+    db.insert_transaction(transaction)
+    return Response(status_code=200)
+
 app.include_router(api)
 
 app.add_middleware(

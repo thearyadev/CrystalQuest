@@ -1,3 +1,4 @@
 # ignore pyc files
 global-exclude *.pyc
+__pycache__
 .vscode

@@ -22,38 +22,46 @@ CREATE TABLE IF NOT EXISTS transactions (
     FOREIGN KEY (transaction_item_tier_id) REFERENCES transaction_item_tier(id)
 );
 
-INSERT INTO transaction_item (id, type, name, price) VALUES (1, 'increase', 'Cake', 100);
-INSERT INTO transaction_item_tier (id, transaction_item_id, tier, price) VALUES (1, 1, 'Slice', 80);
-INSERT INTO transaction_item_tier (id, transaction_item_id, tier, price) VALUES (10, 1, 'Half', 150);
-INSERT INTO transaction_item_tier (id, transaction_item_id, tier, price) VALUES (11, 1, 'Half', 150);
+-- INSERT INTO transaction_item (id, type, name, price) VALUES (1, 'increase', 'Cake', 100);
+-- INSERT INTO transaction_item_tier (id, transaction_item_id, tier, price) VALUES (1, 1, 'Slice', 80);
+-- INSERT INTO transaction_item_tier (id, transaction_item_id, tier, price) VALUES (10, 1, 'Half', 150);
+-- INSERT INTO transaction_item_tier (id, transaction_item_id, tier, price) VALUES (11, 1, 'Half', 150);
 
 
-INSERT INTO transaction_item (id, type, name, price) VALUES (2, 'decrease', 'Pizza', 50);
-INSERT INTO transaction_item_tier (id, transaction_item_id, tier, price) VALUES (2, 2, 'Slice', 80);
+-- INSERT INTO transaction_item (id, type, name, price) VALUES (2, 'decrease', 'Pizza', 50);
+-- INSERT INTO transaction_item_tier (id, transaction_item_id, tier, price) VALUES (2, 2, 'Slice', 80);
 
-INSERT INTO transaction_item (id, type, name, price) VALUES (3, 'increase', 'Sex', 75);
-INSERT INTO transaction_item_tier (id, transaction_item_id, tier, price) VALUES (3, 3, 'Hour', 100);
+-- INSERT INTO transaction_item (id, type, name, price) VALUES (3, 'increase', 'Sex', 75);
+-- INSERT INTO transaction_item_tier (id, transaction_item_id, tier, price) VALUES (3, 3, 'Hour', 100);
 
-INSERT INTO transaction_item (id, type, name, price) VALUES (4, 'decrease', 'Pie', 30);
-INSERT INTO transaction_item_tier (id, transaction_item_id, tier, price) VALUES (4, 4, 'Slice', 80);
+-- INSERT INTO transaction_item (id, type, name, price) VALUES (4, 'decrease', 'Pie', 30);
+-- INSERT INTO transaction_item_tier (id, transaction_item_id, tier, price) VALUES (4, 4, 'Slice', 80);
 
-INSERT INTO transaction_item (id, type, name, price) VALUES (5, 'increase', 'Pineapple', 120);
-INSERT INTO transaction_item_tier (id, transaction_item_id, tier, price) VALUES (5, 5, 'Slice', 80);
+-- INSERT INTO transaction_item (id, type, name, price) VALUES (5, 'increase', 'Pineapple', 120);
+-- INSERT INTO transaction_item_tier (id, transaction_item_id, tier, price) VALUES (5, 5, 'Slice', 80);
 
 
-INSERT INTO transaction_item (id, type, name, price) VALUES (6, 'decrease', 'Boat', 40);
-INSERT INTO transaction_item_tier (id, transaction_item_id, tier, price) VALUES (6, 6, 'Hour', 100);
+-- INSERT INTO transaction_item (id, type, name, price) VALUES (6, 'decrease', 'Boat', 40);
+-- INSERT INTO transaction_item_tier (id, transaction_item_id, tier, price) VALUES (6, 6, 'Hour', 100);
 
-INSERT INTO transaction_item (id, type, name, price) VALUES (7, 'increase', 'Gnome', 90);
-INSERT INTO transaction_item_tier (id, transaction_item_id, tier, price) VALUES (7, 7, 'Hour', 100);
-INSERT INTO transaction_item (id, type, name, price) VALUES (8, 'decrease', 'BoatGnome', 60);
-INSERT INTO transaction_item_tier (id, transaction_item_id, tier, price) VALUES (8, 8, 'Hour', 100);
+-- INSERT INTO transaction_item (id, type, name, price) VALUES (7, 'increase', 'Gnome', 90);
+-- INSERT INTO transaction_item_tier (id, transaction_item_id, tier, price) VALUES (7, 7, 'Hour', 100);
+-- INSERT INTO transaction_item (id, type, name, price) VALUES (8, 'decrease', 'BoatGnome', 60);
+-- INSERT INTO transaction_item_tier (id, transaction_item_id, tier, price) VALUES (8, 8, 'Hour', 100);
 
-insert into transactions (id, transaction_item_tier_id) VALUES (1, 1);
-insert into transactions (id, transaction_item_tier_id) VALUES (2, 2);
-insert into transactions (id, transaction_item_tier_id) VALUES (3, 3);
-insert into transactions (id, transaction_item_tier_id) VALUES (4, 4);
-insert into transactions (id, transaction_item_tier_id) VALUES (5, 5);
-insert into transactions (id, transaction_item_tier_id) VALUES (6, 6);
-insert into transactions (id, transaction_item_tier_id) VALUES (7, 7);
-insert into transactions (id, transaction_item_tier_id) VALUES (8, 8);
+-- insert into transactions (id, transaction_item_tier_id) VALUES (1, 1);
+-- insert into transactions (id, transaction_item_tier_id) VALUES (2, 2);
+-- insert into transactions (id, transaction_item_tier_id) VALUES (3, 3);
+-- insert into transactions (id, transaction_item_tier_id) VALUES (4, 4);
+-- insert into transactions (id, transaction_item_tier_id) VALUES (5, 5);
+-- insert into transactions (id, transaction_item_tier_id) VALUES (6, 6);
+-- insert into transactions (id, transaction_item_tier_id) VALUES (7, 7);
+-- insert into transactions (id, transaction_item_tier_id) VALUES (8, 8);
+-- insert into transactions (id, transaction_item_tier_id) VALUES (9, 8);
+-- insert into transactions (id, transaction_item_tier_id) VALUES (10, 8);
+
+-- insert into transactions (id, transaction_item_tier_id) VALUES (11, 8);
+
+-- insert into transactions (id, transaction_item_tier_id) VALUES (12, 8);
+
+-- insert into transactions (id, transaction_item_tier_id) VALUES (13, 8);

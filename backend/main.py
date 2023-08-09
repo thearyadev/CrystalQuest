@@ -1,9 +1,10 @@
-from fastapi import FastAPI, Depends, APIRouter
+from fastapi import FastAPI, Depends, APIRouter, Response
 from typing import Annotated
 from models.transaction_item import TransactionItem
 from models.transaction import Transaction
 from models.transaction_item_tier import TransactionItemTier
 from fastapi.middleware.cors import CORSMiddleware
+from models.balance import Balance
 
 import database
 
@@ -35,6 +36,14 @@ async def get_all_transaction_items(db: database.Database = Depends(get_database
 async def get_all_transactions(db: database.Database = Depends(get_database)) -> list[Transaction]:
     return db.get_all_transactions()
 
+@api.post("/insert/item", response_model=TransactionItem)
+async def create_transaction_item(transactionItem: TransactionItem, db: database.Database = Depends(get_database)) -> Response:
+    db.insert_transaction_item(transactionItem)
+    return Response(status_code=200)
+
+@api.get("/balance", response_model=Balance)
+async def get_balance(db: database.Database = Depends(get_database)) -> Balance:
+    return db.get_balance()
 
 app.include_router(api)
 

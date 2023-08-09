@@ -52,3 +52,7 @@ body{
 .mini-icon-crystal{
   width: 15px;
 }
+
+#ScrollbarHiddenBox::-webkit-scrollbar{
+  display: none;
+}

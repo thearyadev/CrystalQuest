@@ -5,14 +5,17 @@ import './App.css'
 
 import buildUrl from './apiEndpointBuilder'
 import {TransactionItemList} from './components/transaction_item_list'
-import { Grid, Paper, Box, Tab, Tabs, Typography, Divider, Fab } from '@mui/material';
-import { TransactionItem, TransactionItemTier, Transaction } from "./models"
+import { Grid, Paper, Box, Tab, Tabs, Typography, Divider, Fab, Backdrop } from '@mui/material';
+import { TransactionItem, TransactionItemTier, Transaction, Balance as CrystalBalance } from "./models"
 import { createTheme } from '@mui/material/styles';
 import { ThemeProvider } from '@mui/material/styles';
 import AddIcon from '@mui/icons-material/Add';
 import { DataGrid, GridRowsProp, GridColDef } from '@mui/x-data-grid';
 import { Balance } from './components/balance'
-import { ApiFetchTransactionItems, ApiFetchTransactions } from './apiActions'
+import { ApiFetchTransactionItems, ApiFetchTransactions, ApiFetchBalance } from './apiActions'
+import AddItemFloatingActionButton from './components/add_item_dialog'
+import CircularProgress from '@mui/material/CircularProgress';
+
 
 import { TransactionList } from './components/transaction_list'
 const theme = createTheme({
@@ -44,7 +47,7 @@ function TabPanelContainer(props: TabPanelProps) {
       {...other}
     >
       {value === index && (
-        <Box sx={{ height: 'calc(100vh - 300px)', overflowY: 'scroll', pt: 5, pl: 1, pr: 1 }} >
+        <Box sx={{ height: 'calc(100vh - 300px)', overflowY: 'scroll', pt: 5, pl: 1, pr: 1 }} id='ScrollbarHiddenBox' >
           <Typography>{children}</Typography>
         </Box>
       )}
@@ -62,29 +65,65 @@ function a11yProps(index: number) {
 function App() {
   const [items, setItems] = useState<TransactionItem[]>([])
   const [transactions, setTransactions] = useState<Transaction[]>([])
+  const [crystalBalance, setCrystalBalance] = useState<CrystalBalance>({crystals: 0, today: 0})
   const [value, setValue] = useState(0);
+  const [loadingOpen, setLoadingOpen] = useState(true);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   }
 
   const reload = () => {
-    ApiFetchTransactionItems().then((items: TransactionItem[]) => (setItems(items)))
-    ApiFetchTransactions().then((transactions: Transaction[]) => (setTransactions(transactions)))
+    handleLoadingOpen();
+    Promise.all([
+      ApiFetchTransactionItems(),
+      ApiFetchTransactions(),
+      ApiFetchBalance()
+    ]).then(([items, transactions, balance]) => {
+      setItems(items)
+      setTransactions(transactions)
+      setCrystalBalance(balance)
+      handleLoadingClose();
+    })
+  }
+
+  const handleLoadingClose = () => {
+    setLoadingOpen(false);
+  }
+
+  const handleLoadingOpen = () => {
+    setLoadingOpen(true);
   }
 
 
   useEffect(() => {
-    ApiFetchTransactionItems().then((items: TransactionItem[]) => (setItems(items)))
-    ApiFetchTransactions().then((transactions: Transaction[]) => (setTransactions(transactions)))
     
+    Promise.all([
+      ApiFetchTransactionItems(),
+      ApiFetchTransactions(),
+      ApiFetchBalance()
+    ]).then(([items, transactions, balance]) => {
+      setItems(items)
+      setTransactions(transactions)
+      setCrystalBalance(balance)
+      handleLoadingClose();
+    })
   }, []);
 
 
   return (
     <ThemeProvider theme={theme}>
+      <Backdrop
+      sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+      open={loadingOpen}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
+
+
+
+
       <div style={{ display: 'flex', justifyContent: 'center' }}>
-        <Balance value={961} />
+        <Balance value={crystalBalance} />
       </div>
       <Box sx={{ width: '100%' }}>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -104,9 +143,7 @@ function App() {
         <TransactionItemList items={items} type="increase" reloadFn={reload} />
         </TabPanelContainer>
       </Box>
-      <Fab color="primary" aria-label="add" sx={{ position: 'absolute', bottom: '25px', right: '25px' }}>
-        <AddIcon />
-      </Fab>
+      <AddItemFloatingActionButton reloadFn={reload} />
     </ThemeProvider>
   );
 }

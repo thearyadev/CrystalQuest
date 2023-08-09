@@ -4,6 +4,8 @@ import CrystalMiniPng from '../assets/crystal-mini.png';
 import { Chip, Avatar, Typography } from '@mui/material';
 import { List, ListItem, ListItemIcon, ListItemText, ListItemButton, Stack, ButtonGroup, Button } from '@mui/material';
 import StarIcon from '@mui/icons-material/Star';
+import TierSelectButton from './dropdown_button';
+
 
 interface TransactionItemListProps {
     items: TransactionItem[];
@@ -12,15 +14,16 @@ interface TransactionItemListProps {
 }
 
 
-const TransactionItemListItem = ({ item, reloadFn }: { item: TransactionItem, reloadFn: () => void}) => {
+const TransactionItemListItem = ({ item, reloadFn }: { item: TransactionItem, reloadFn: () => void }) => {
     return (
         <ListItem >
-            <ListItemText sx={{ textAlign: 'left' }}><Typography component={"h2"} variant={"h6"}>{item.name}</Typography></ListItemText>
-            <ButtonGroup size="small" variant="contained" aria-label="large button group outlined">
+            <ListItemText sx={{ textAlign: 'left' }}><Typography variant="overline" display="block" gutterBottom>{item.name}</Typography></ListItemText>
+            {/* <ButtonGroup size="small" variant="contained" aria-label="large button group outlined">
                 {item?.tiers?.map((tier) => (<Button key={tier.id}>
                     {tier.tier}: {tier.price}
                 </Button>))}
-            </ButtonGroup>
+            </ButtonGroup> */}
+            <TierSelectButton tiers={item.tiers || []} reloadFn={reloadFn}/>
         </ListItem>
     )
 }

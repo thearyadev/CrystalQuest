@@ -1,5 +1,5 @@
 import buildUrl from "./apiEndpointBuilder";
-import {Transaction, TransactionItem, TransactionItemTier} from "./models";
+import {Transaction, TransactionItem, Balance} from "./models";
 
 export const ApiFetchTransactions = async (): Promise<Transaction[]> => {
     const url = buildUrl("/api/transactions")
@@ -30,6 +30,7 @@ export const ApiFetchTransactionItems = async (): Promise<TransactionItem[]> => 
     const url = buildUrl("/api/items")
     const response = await fetch(url);
     const responseData = await response.json();
+    console.log(responseData)
 
     return responseData.map((item: any) => {
         return {
@@ -48,7 +49,15 @@ export const ApiFetchTransactionItems = async (): Promise<TransactionItem[]> => 
     });
 }
 
-export const ApiFetchBalance = async (): Promise<any> => {
+export const ApiFetchBalance = async (): Promise<Balance> => {
+    const url = buildUrl("/api/balance")
+    const response = await fetch(url);
+    const responseData = await response.json();
+
+    return {
+        crystals: responseData.crystals,
+        today: responseData.today,
+    }
 
 }
 
@@ -56,6 +65,14 @@ export const ApiAddTransaction = async (transaction: Transaction): Promise<any> 
 
 }
 
-export const ApiAddTransactionItem = async (transactionItem: TransactionItem): Promise<any> => {
-
+export const ApiAddTransactionItem = async (transactionItem: TransactionItem): Promise<Response> => {
+    const url = buildUrl("/api/insert/item")
+    const response = await fetch(url, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(transactionItem),
+    });
+    return response;
 }

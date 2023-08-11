@@ -2,7 +2,6 @@ import datetime
 import sqlite3
 
 from beartype import beartype
-
 from models.balance import Balance
 from models.transaction import Transaction
 from models.transaction_item import TransactionItem
@@ -85,7 +84,9 @@ class Database:
                 name=item_name,
                 price=item_price,
                 tiers=[
-                    TransactionItemTier(tier=tier, price=int(tier_price), id=int(tier_id))
+                    TransactionItemTier(
+                        tier=tier, price=int(tier_price), id=int(tier_id)
+                    )
                     for tier, tier_price, tier_id in zip(
                         tiers.split(","), tier_prices.split(","), tier_ids.split(",")
                     )

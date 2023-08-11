@@ -3,7 +3,6 @@ from datetime import date, datetime
 from typing import Optional
 
 from beartype import beartype
-
 from models.transaction_item_tier import TransactionItemTier
 
 

@@ -1,6 +1,5 @@
-from rich import print
-
 from database import Database
+from rich import print
 
 if __name__ == "__main__":
     db = Database("CrystalQuestDatabase.db")

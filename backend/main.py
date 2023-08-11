@@ -1,15 +1,13 @@
 from typing import Annotated
 
+import database
 from fastapi import APIRouter, Depends, FastAPI, Response
 from fastapi.middleware.cors import CORSMiddleware
-
-import database
+from fastapi.staticfiles import StaticFiles
 from models.balance import Balance
 from models.transaction import Transaction
 from models.transaction_item import TransactionItem
 from models.transaction_item_tier import TransactionItemTier
-
-from fastapi.staticfiles import StaticFiles
 
 app = FastAPI()
 api = APIRouter(prefix="/api")
@@ -70,7 +68,6 @@ app.include_router(api)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
-
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

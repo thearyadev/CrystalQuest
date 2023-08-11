@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import './App.css'
-
-import {TransactionItemList} from './components/transaction_item_list'
+import React from 'react'
+import { TransactionItemList } from './components/transaction_item_list'
 import { Box, Tab, Tabs, Typography, Backdrop } from '@mui/material';
 import { TransactionItem, Transaction, Balance as CrystalBalance } from "./models"
 import { createTheme } from '@mui/material/styles';
@@ -42,7 +42,7 @@ function TabPanelContainer(props: TabPanelProps) {
       {...other}
     >
       {value === index && (
-        <Box sx={{ height: 'calc(100vh - 300px)', overflowY: 'scroll', pt: 5, pl: 1, pr: 1}} id='ScrollbarHiddenBox' >
+        <Box sx={{ height: 'calc(100vh - 300px)', overflowY: 'scroll', pt: 5, pl: 1, pr: 1 }} id='ScrollbarHiddenBox' >
           <Typography>{children}</Typography>
         </Box>
       )}
@@ -60,9 +60,10 @@ function a11yProps(index: number) {
 function App() {
   const [items, setItems] = useState<TransactionItem[]>([])
   const [transactions, setTransactions] = useState<Transaction[]>([])
-  const [crystalBalance, setCrystalBalance] = useState<CrystalBalance>({crystals: 0, today: 0})
+  const [crystalBalance, setCrystalBalance] = useState<CrystalBalance>({ crystals: 0 })
   const [value, setValue] = useState(0);
   const [loadingOpen, setLoadingOpen] = useState(true);
+  const [errorMessage, setErrorMessage] = useState('boat');
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -92,7 +93,7 @@ function App() {
 
 
   useEffect(() => {
-    
+
     Promise.all([
       ApiFetchTransactionItems(),
       ApiFetchTransactions(),
@@ -108,9 +109,10 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
+
       <Backdrop
-      sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-      open={loadingOpen}>
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={loadingOpen}>
         <CircularProgress color="inherit" />
       </Backdrop>
 
@@ -135,7 +137,7 @@ function App() {
           <TransactionItemList items={items} type="decrease" reloadFn={reload} />
         </TabPanelContainer>
         <TabPanelContainer value={value} index={2}>
-        <TransactionItemList items={items} type="increase" reloadFn={reload} />
+          <TransactionItemList items={items} type="increase" reloadFn={reload} />
         </TabPanelContainer>
       </Box>
       <AddItemFloatingActionButton reloadFn={reload} />

@@ -9,4 +9,3 @@ from beartype import beartype
 @dataclass(frozen=True)
 class Balance:
     crystals: int
-    today: int

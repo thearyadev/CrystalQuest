@@ -142,17 +142,16 @@ class Database:
         cursor = self.db.cursor()
         cursor.execute(
             """
-SELECT
-    SUM(
-        CASE WHEN ti.type = 'decrease' THEN tt.price * -1  ELSE tt.price END
-    ) AS balance
-FROM
-    transactions t
-LEFT JOIN
-    transaction_item_tier tt ON t.transaction_item_tier_id = tt.id
-LEFT JOIN
-    transaction_item ti ON tt.transaction_item_id = ti.id;
-"""
+            SELECT
+                SUM(
+                    CASE WHEN ti.type = 'decrease' THEN tt.price * -1  ELSE tt.price END
+                ) AS balance
+            FROM
+                transactions t
+            LEFT JOIN
+                transaction_item_tier tt ON t.transaction_item_tier_id = tt.id
+            LEFT JOIN
+                transaction_item ti ON tt.transaction_item_id = ti.id;
+            """
         )
-        data = cursor.fetchone()
-        return Balance(crystals=data[0], today=300)
+        return Balance(crystals=cursor.fetchone()[0])

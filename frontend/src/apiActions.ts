@@ -56,7 +56,6 @@ export const ApiFetchBalance = async (): Promise<Balance> => {
 
     return {
         crystals: responseData.crystals,
-        today: responseData.today,
     }
 
 }

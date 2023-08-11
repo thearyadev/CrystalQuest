@@ -72,4 +72,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-app.mount("/", StaticFiles(directory="dist", html=True), name="dist")
+try:
+    app.mount("/", StaticFiles(directory="dist", html=True), name="dist")
+except RuntimeError:
+    pass

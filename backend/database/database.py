@@ -125,7 +125,8 @@ class Database:
     def insert_transaction(self, transaction: Transaction):
         if (
             transaction.transaction_item.type == "decrease"
-            and transaction.transaction_item.price > self.get_balance().crystals
+            and transaction.transaction_item_tier
+            and transaction.transaction_item_tier.price > self.get_balance().crystals
         ):
             return
 

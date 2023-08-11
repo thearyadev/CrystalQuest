@@ -1,13 +1,13 @@
 FROM node:18.16.1
 
 RUN apt-get update && apt-get install -y python3.11 && rm -rf /var/lib/apt/lists/*
-RUN pip3 install poetry=1.5.1
-
+RUN curl -sSL https://install.python-poetry.org | python3 -
 WORKDIR /crystalquest
 COPY . .
 
 RUN cd /crystalquest/frontend && npm install && npm run build
-RUN cd /crystalquest/backend && poetry install
+RUN cd /crystalquest/backend && /root/.local/bin/poetry install
+RUN mv /crystalquest/frontend/dist /crystalquest/backend/
+RUN mkdir -p /crystalquest/backend/crystal_quest_data/
 
-ENTRYPOINT [ "cd", "/crystalquest/backend", "&&", "poetry", "run", "uvicorn", "main:app" ]
-
+ENTRYPOINT [ "bash", "-c", "cd /crystalquest/backend && /root/.local/bin/poetry run uvicorn main:app --host 0.0.0.0" ]

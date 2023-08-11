@@ -7,7 +7,8 @@ from fastapi.staticfiles import StaticFiles
 from models.balance import Balance
 from models.transaction import Transaction
 from models.transaction_item import TransactionItem
-from models.transaction_item_tier import TransactionItemTier
+
+import logging
 
 app = FastAPI()
 api = APIRouter(prefix="/api")
@@ -75,4 +76,4 @@ app.add_middleware(
 try:
     app.mount("/", StaticFiles(directory="dist", html=True), name="dist")
 except RuntimeError:
-    pass
+    logging.critical("Could not find dist folder. Did you run `npm run build`?")

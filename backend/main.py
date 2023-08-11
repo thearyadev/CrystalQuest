@@ -9,13 +9,15 @@ from models.transaction import Transaction
 from models.transaction_item import TransactionItem
 from models.transaction_item_tier import TransactionItemTier
 
+from fastapi.staticfiles import StaticFiles
+
 app = FastAPI()
 api = APIRouter(prefix="/api")
 
 
 @app.on_event("startup")
 async def startup_event():
-    app.state.db = database.Database("CrystalQuestDatabase.db")
+    app.state.db = database.Database("crystal_quest_data/CrystalQuestDatabase.db")
     app.state.db.create_tables("database/schema/tables.sql")
 
 
@@ -68,7 +70,9 @@ app.include_router(api)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
+
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+app.mount("/", StaticFiles(directory="dist", html=True), name="dist")

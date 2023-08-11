@@ -19,8 +19,7 @@ const TierSelectButton = ({ item, tiers, reloadFn }: {item: TransactionItem, tie
     const anchorRef = React.useRef<HTMLDivElement>(null);
     const [selectedIndex, setSelectedIndex] = React.useState(0);
     const handleClick = () => {
-        console.log(tiers)
-        console.info(`You clicked ${tiers[selectedIndex].tier}`);
+        console.info(`You clicked ${tiers[selectedIndex].tier} at price ${tiers[selectedIndex].price}`);
         const transaction: Transaction = {
             transaction_item: item,
             transaction_item_tier: tiers[selectedIndex],

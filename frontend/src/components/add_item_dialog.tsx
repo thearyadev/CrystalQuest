@@ -85,6 +85,12 @@ const AddItemFloatingActionButton = ({ reloadFn }: { reloadFn: () => void }) => 
       if (response.status === 200) {
         reloadFn();
         handleClose();
+        setType("");
+        setName("");
+        setTiers([]);
+        setActiveTierName("");
+        setActiveTierPrice(0);
+        
       }else{
         
       }

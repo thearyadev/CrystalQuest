@@ -60,7 +60,7 @@ const TierSelectButton = ({ item, tiers, reloadFn }: {item: TransactionItem, tie
     return (
         <React.Fragment>
             <ButtonGroup variant="contained" ref={anchorRef} aria-label="split button">
-                <Button onClick={handleClick}>{tiers[selectedIndex]?.tier || tiers[0].tier} ({tiers[selectedIndex]?.price || tiers[0].price})</Button>
+                <Button onClick={handleClick}>{tiers[selectedIndex]?.tier || tiers[0].tier} ({tiers[selectedIndex]?.price.toLocaleString() || tiers[0].price.toLocaleString()})</Button>
                 <Button
                     size="small"
                     aria-controls={open ? 'split-button-menu' : undefined}

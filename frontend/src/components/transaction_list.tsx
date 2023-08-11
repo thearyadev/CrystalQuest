@@ -15,7 +15,7 @@ const TransactionListItem = ({ transaction }: { transaction: Transaction }) => {
             </ListItemText>
             <ListItemText>
                 <Stack direction="row" spacing={1} alignItems='center' justifyContent="end">
-                    <Chip label={transaction.transaction_item_tier?.price} avatar={<Avatar src={CrystalMiniPng} sx={{ width: 1, height: 1 }} />} sx={{backgroundColor: priceColor}}  />
+                    <Chip label={transaction.transaction_item_tier?.price.toLocaleString()} avatar={<Avatar src={CrystalMiniPng} sx={{ width: 1, height: 1 }} />} sx={{backgroundColor: priceColor}}  />
                 </Stack>
             </ListItemText>
         </ListItem>

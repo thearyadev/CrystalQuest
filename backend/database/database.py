@@ -40,7 +40,9 @@ class Database:
     transaction_item.price AS item_price
     FROM transactions
     JOIN transaction_item_tier ON transactions.transaction_item_tier_id = transaction_item_tier.id
-    JOIN transaction_item ON transaction_item_tier.transaction_item_id = transaction_item.id;
+    JOIN transaction_item ON transaction_item_tier.transaction_item_id = transaction_item.id
+    ORDER BY
+    transactions.created_at DESC;
 
             """
         )
@@ -70,7 +72,7 @@ class Database:
             ti.price AS item_price,
             GROUP_CONCAT(tt.tier) AS tiers,
             GROUP_CONCAT(tt.price) AS tier_prices,
-            tt.id AS tier_id
+            GROUP_CONCAT(tt.id) as tier_ids
             FROM transaction_item ti
             LEFT JOIN transaction_item_tier tt ON ti.id = tt.transaction_item_id
             GROUP BY ti.id, ti.type, ti.name, ti.price;
@@ -83,15 +85,15 @@ class Database:
                 name=item_name,
                 price=item_price,
                 tiers=[
-                    TransactionItemTier(tier=tier, price=int(tier_price), id=tier_id)
-                    for tier, tier_price in zip(
-                        tiers.split(","), tier_prices.split(",")
+                    TransactionItemTier(tier=tier, price=int(tier_price), id=int(tier_id))
+                    for tier, tier_price, tier_id in zip(
+                        tiers.split(","), tier_prices.split(","), tier_ids.split(",")
                     )
                 ]
                 if tiers and tier_prices
                 else None,
             )
-            for item_id, item_type, item_name, item_price, tiers, tier_prices, tier_id in cursor.fetchall()
+            for item_id, item_type, item_name, item_price, tiers, tier_prices, tier_ids in cursor.fetchall()
         ]
 
     @beartype
@@ -154,4 +156,4 @@ class Database:
                 transaction_item ti ON tt.transaction_item_id = ti.id;
             """
         )
-        return Balance(crystals=cursor.fetchone()[0])
+        return Balance(crystals=cursor.fetchone()[0] or 0)

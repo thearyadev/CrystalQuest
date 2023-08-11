@@ -1,5 +1,9 @@
 FROM node:18.16.1
 
+LABEL org.opencontainers.image.source=https://github.com/thearyadev/CrystalQuest
+LABEL org.opencontainers.image.description="Docker image for Crystal Quest"
+LABEL org.opencontainers.image.licenses=MIT
+
 RUN apt-get update && apt-get install -y python3.11 && rm -rf /var/lib/apt/lists/*
 RUN curl -sSL https://install.python-poetry.org | python3 -
 WORKDIR /crystalquest

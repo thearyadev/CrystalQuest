@@ -10,12 +10,19 @@ const TransactionListItem = ({ transaction }: { transaction: Transaction }) => {
     return (
         <ListItem >
             <ListItemText ><Typography variant="overline" display="block" gutterBottom>{transaction.created_at.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</Typography></ListItemText>
-            <ListItemText   sx={{ textAlign: 'center' }} secondary={transaction.transaction_item_tier?.tier}>
-                <Typography  variant="overline" display="block" gutterBottom>{transaction.transaction_item.name}</Typography>
+            <ListItemText sx={{ textAlign: 'center' }}>
+                <Stack direction="column">
+                <Typography variant="overline" display="block" gutterBottom>
+                    {transaction.transaction_item.name}
+                </Typography>
+                <Typography variant="subtitle2" display="block" gutterBottom sx={{color: "#F652A0"}} >
+                    {transaction.transaction_item_tier?.tier}
+                </Typography>
+                </Stack>
             </ListItemText>
             <ListItemText>
                 <Stack direction="row" spacing={1} alignItems='center' justifyContent="end">
-                    <Chip label={transaction.transaction_item_tier?.price.toLocaleString()} avatar={<Avatar src={CrystalMiniPng} sx={{ width: 1, height: 1 }} />} sx={{backgroundColor: priceColor}}  />
+                    <Chip label={transaction.transaction_item_tier?.price.toLocaleString()} avatar={<Avatar src={CrystalMiniPng} sx={{ width: 1, height: 1 }} />} sx={{ backgroundColor: priceColor }} />
                 </Stack>
             </ListItemText>
         </ListItem>
